@@ -1,5 +1,4 @@
 class Seed extends Denizen {
-
   constructor(options) {
     super(options);
     this.waterFriction = 0.3;      // "0.3" means "lose 30% per second"
@@ -11,10 +10,10 @@ class Seed extends Denizen {
   }
 
   updateOneTick() {
-    this.velocity = this.velocity.scale( 1 - this.waterFriction * PHYSICS_TICK_SIZE_S );
+    this.velocity = this.velocity.scale(1 - this.waterFriction * PHYSICS_TICK_SIZE_S);
     this.velocity.y -= 50 * PHYSICS_TICK_SIZE_S;
 
-    var delta = this.velocity.scale(PHYSICS_TICK_SIZE_S);
+    const delta = this.velocity.scale(PHYSICS_TICK_SIZE_S);
     this.position = this.position.add(delta);
 
     this.ttl -= PHYSICS_TICK_SIZE_S;
@@ -25,8 +24,8 @@ class Seed extends Denizen {
   }
 
   spawn() {
-    var Type = this.type;
-    var individual = new Type({
+    const Type = this.type;
+    const individual = new Type({
       tank: this.tank,
       position: this.position,
     });
@@ -36,5 +35,4 @@ class Seed extends Denizen {
     this.spawn();
     this.kill();
   }
-
 }

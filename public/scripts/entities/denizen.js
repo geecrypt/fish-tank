@@ -1,5 +1,4 @@
 class Denizen {
-
   constructor(options) {
     // console.log("constructing:", this.constructor.name, options);
     this.lastTime = new Date();
@@ -9,18 +8,21 @@ class Denizen {
     if (options.velocity) {
       this.velocity = options.velocity.clone();
     }
+
     this.tank = options.tank;
     this.id = this.tank.registerDenizen(this);
     this.onClick = this.onClick.bind(this);
+    this.kill = this.kill.bind(this);
   }
 
   calcPhysicsTicks(newTime) {
-    var deltaTime = (newTime - this.lastTime) / 1000.0; // convert to seconds
-    var numTicks = Math.floor(deltaTime / PHYSICS_TICK_SIZE_S);
-    var secondsConsumed = numTicks * PHYSICS_TICK_SIZE_S;
+    const deltaTime = (newTime - this.lastTime) / 1000.0; // convert to seconds
+    const numTicks = Math.floor(deltaTime / PHYSICS_TICK_SIZE_S);
+    const secondsConsumed = numTicks * PHYSICS_TICK_SIZE_S;
     //console.log(this.lastTime.getSeconds(), this.lastTime.getMilliseconds(), "...", newTime.getSeconds(), newTime.getMilliseconds(),
     //    "-->", numTicks, "ticks,   ", secondsConsumed, "time consumed");
     this.lastTime = new Date(this.lastTime.getTime() + secondsConsumed * 1000);
+
     return numTicks;
   }
 
@@ -29,7 +31,7 @@ class Denizen {
     if (this.outOfBounds(this.tank.getBounds())) {
       this.kill();
     } else {
-      for (var i = 0; i < this.calcPhysicsTicks(t); i++) {
+      for (let i = 0; i < this.calcPhysicsTicks(t); i++) {
         this.updateOneTick();
       }
     }
@@ -46,8 +48,8 @@ class Denizen {
         width: this.width,
         height: this.height,
       },
-      x: this.position.x - Math.floor(this.width/2),
-      y: this.position.y - Math.floor(this.height/2),
+      x: this.position.x - Math.floor(this.width / 2),
+      y: this.position.y - Math.floor(this.height / 2),
     };
   }
 

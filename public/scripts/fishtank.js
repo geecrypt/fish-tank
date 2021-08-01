@@ -1,4 +1,3 @@
-
 class Fishtank {
   constructor(divName) {
     this.divName = divName;
@@ -10,23 +9,26 @@ class Fishtank {
   }
 
   registerSpecies() {
-    for (var species of arguments) {
+    for (const species of arguments) {
       this.specieses[species.name] = species;
     }
   }
 
   getRandomSpecies() {
-    var specieses = Object.values(this.specieses);
-    var index = randRangeInt(specieses.length - 1);
+    const specieses = Object.values(this.specieses);
+    const index = randRangeInt(specieses.length - 1);
+
     return specieses[index];
   }
 
   registerDenizen(individual) {
-    var id;
+    let id;
     while (!id || this.denizens[id]) {
       id = Math.floor(Math.random() * 1000) + '';
     }
+
     this.denizens[id] = individual;
+
     return id;
   }
 
@@ -35,14 +37,15 @@ class Fishtank {
       return individual.position.distance(center) <= radius;
       //return distance(individual.position, center) <= radius;
     }
-    return Object.values(this.denizens).filter(isNearCenter);
+
+    return Object.values(this.denizens).filter(i => isNearCenter(i));
   }
 
   removeDenizen(id, duration) {
     delete (this.denizens[id]);
     duration = duration || 1;
     duration = Number(duration) + 's';
-    var $victim = $('#' + id);
+    const $victim = $('#' + id);
     $victim.off();
     $victim.css({ transition: 'all ' + duration });
     $victim.css({
@@ -57,7 +60,8 @@ class Fishtank {
     if (!time) {
       time = new Date();
     }
-    for (var id in this.denizens) {
+
+    for (const id in this.denizens) {
       if (this.denizens[id].update) {
         this.denizens[id].update(time);
       }
@@ -77,13 +81,13 @@ class Fishtank {
 
   drawGraphics() {
     this.runPhysics();  // TODO: maybe this should be on a separate setInterval
-    var $fishtank = $('#' + this.divName);
-    var centerX = Math.floor(window.innerWidth / 2);
-    var floorY  = Math.floor(window.innerHeight * 0.95);
-    for (var id in this.denizens) {
-      var denizen = this.denizens[id];
-      var renderRules = denizen.renderRules();
-      var $denizen = $('#' + id);
+    const $fishtank = $('#' + this.divName);
+    const centerX = Math.floor(window.innerWidth / 2);
+    const floorY  = Math.floor(window.innerHeight * 0.95);
+    for (const id in this.denizens) {
+      const denizen = this.denizens[id];
+      const renderRules = denizen.renderRules();
+      let $denizen = $('#' + id);
       if ($denizen.length === 0) {
         $denizen = $(`<img id="${id}"></img>`);
         $denizen.css({position: 'fixed'});
@@ -98,9 +102,11 @@ class Fishtank {
       if (renderRules.x !== undefined) {
         $denizen.css('left', renderRules.x + centerX);
       }
+
       if (renderRules.y !== undefined) {
         $denizen.css('bottom', renderRules.y + 10);
       }
+
       $denizen.css(renderRules.css);    // this is allowed to override the previous, if the Denizen wants to
     }
 
@@ -117,6 +123,4 @@ class Fishtank {
       maxY: window.innerHeight - 10,
     };
   }
-
 }
-

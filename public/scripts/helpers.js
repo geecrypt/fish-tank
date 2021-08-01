@@ -1,6 +1,6 @@
-
 function randRange(min, max) {
-  var interval = max - min;
+  const interval = max - min;
+
   return Math.random() * interval + min;
 }
 
@@ -9,12 +9,12 @@ function randRangeInt(min, max) {
     max = min;
     min = 0;
   }
+
   return Math.floor(randRange(min, max + 0.99999));
 }
 
-
 class Vector {
-  constructor (x, y) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
   }
@@ -25,12 +25,13 @@ class Vector {
 
   distance(p) {
     // pythagorooooooo
-    var dx = this.x - p.x;
-    var dy = this.y - p.y;
-    var dx2 = dx * dx;
-    var dy2 = dy * dy;
-    var d2 = dx2 + dy2;
-    var d = Math.sqrt(d2);
+    const dx = this.x - p.x;
+    const dy = this.y - p.y;
+    const dx2 = dx * dx;
+    const dy2 = dy * dy;
+    const d2 = dx2 + dy2;
+    const d = Math.sqrt(d2);
+
     return d;
   }
 
@@ -64,4 +65,3 @@ class Vector {
     this.scale_mut(scale_factor);
   }*/
 }
-
